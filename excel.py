@@ -318,6 +318,14 @@ def true():
     return True
 
 
+def vlookup(dataframe, return_column, search_column, search_value):
+    series = dataframe.loc[dataframe[search_column] == search_value]
+    if series.empty:
+        return "#N/A"
+    else:
+        return series[0]
+
+
 # Typically returns 0 Monday - 6 Sunday
 def weekday(date, return_type=1):
     """Returns the day of the week corresponding to a date as an integer ranging from 1 (Sunday) to 7 (Saturday)."""
