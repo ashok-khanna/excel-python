@@ -12,8 +12,7 @@ import datetime as dt
 
 
 def abs_(number):
-    """Returns the absolute value of the supplied number.
-    """
+    """Returns the absolute value of the supplied number. """
     return abs(number)
 
 
@@ -53,6 +52,9 @@ def averageifs(dataframe, average_column, *criteria):
 
 def averageifs_(dataframe, average_column, conditions):
     return dataframe.loc[np.logical_and.reduce(conditions), average_column].mean()
+
+
+def concatenate
 
 
 def countifs(dataframe, count_column, *criteria):
@@ -95,103 +97,45 @@ def datevalue(date):
     return date.toordinal() - offset
 
 
-def day(date):
-    """Returns the day of the month of the supplied Date / Datetime object."""
-    return date.day
 
 
-# Reverse order of start / end arguments vs Excel API to be consistent with others
-def days(start_date, end_date):
-    """Returns the numbers of days between two dates."""
-    delta = end_date - start_date
-    return delta.days
 
 
-def days360(start_date, end_date, method=False):
-    """Returns the number of days between two dates using the 360 day calendar."""
-    if start_date.year == end_date.year:
-        month_difference = end_date.month - start_date.month
-    else:
-        year_difference = end_date.year - start_date.year
-        month_difference = 12 * year_difference + end_date.month - start_date.month
-    if method:
-        return 30 * month_difference + min(end_date.day, 30) - min(start_date.day, 30) + \
-               1 if end_date.day == 31 and start_date.day == 31 else 0
-    else:
-        return 30 * month_difference + min(end_date.day, 30) - min(start_date.day, 30)
-
-    return (end_date - start_date).days
 
 
-def edate(start_date, months):
-    """Returns the date that is the specified number of months before or after the supplied date."""
-    years = months // 12
-    months = months % 12
-    # Above is floor division, i.e. -1 // 3 = -1
-    # To test the algorithm works: -1 // 12 = -1 & -1 % 12 = 11
-    # Therefore date = 11 months after 1 year before start_date
-    if start_date.month + months > 12:
-        years += 1
-        new_month = start_date.month + months - 12
-    return date(start_date.year + years, new_month, start_date.day)
+def isblank(value):
+    """Returns True if the supplied value is blank."""
+    return value == ""
 
 
-def eomonth(start_date, months):
-    """Returns the date that is the specified number of months before or after the supplied date."""
-    years = months // 12
-    months = months % 12
-    # Above is floor division, i.e. -1 // 3 = -1
-    # To test the algorithm works: -1 // 12 = -1 & -1 % 12 = 11
-    # Therefore date = 11 months after 1 year before start_date
-    if start_date.month + months > 12:
-        years += 1
-        new_month = start_date.month + months - 12
-    return date(start_date.year + years, new_month, dt.datetime.DaysInMonth(start_date.year + years, new_month))
+def iseven(number):
+    """Returns True if the supplied number is even."""
+    return number % 2 == 0
 
 
-# https://stackoverflow.com/questions/31359150/convert-date-from-excel-in-number-format-to-date-format-python
-def exceldate(number):
-    """Returns a Date object for the supplied serial number."""
-    if isinstance(number, int):
-        return dt.datetime.fromordinal(number + 693594)
-    else:
-        excel_date = dt.datetime.fromordinal(int(number))
-        date = dt.datetime.fromordinal(dt.datetime(1900, 1, 1).toordinal() + int(excel_date) - 2)
-        hour, minute, second = _floatHourToTime(excel_date % 1)
-        return date.replace(hour=hour, minute=minute, second=second)
+def isnontext(value):
+    """Returns True if the supplied value is not text."""
+    return not isinstance(value, str)
 
 
-def false():
-    """Returns False."""
-    return False
+def isnumber(value):
+    """Returns True if the supplied value is a number."""
+    return isinstance(value, (int, float))
 
 
-# https://stackoverflow.com/questions/31359150/convert-date-from-excel-in-number-format-to-date-format-python
-def _floatHourToTime(fh):
-    hours, hourSeconds = divmod(fh, 1)
-    minutes, seconds = divmod(hourSeconds * 60, 1)
-    return (
-        int(hours),
-        int(minutes),
-        int(seconds * 60),
-    )
+def isodd(number):
+    """Returns True if the supplied number is odd."""
+    return number % 2 == 1
 
-
-def hour(date):
-    """Returns the hour of the supplied Date / Datetime object."""
-    return date.hour
-
-
-def if_(condition, true_value, false_value):
-    """Returns the 'True Value' if 'Condition' is True and 'False Value' otherwise."""
-    if condition:
-        return true_value
-    else:
-        return false_value
 
 def isoweeknum(date):
     """Returns the ISO week number of the year corresponding to a date as an integer ranging from 1 to 53."""
     return date.isocalendar()[1]
+
+
+def istext(value):
+    """Returns True if the supplied value is text."""
+    return isinstance(value, str)
 
 
 def maxifs(dataframe, max_column, *criteria):
@@ -294,8 +238,6 @@ def sumifs_(dataframe, sum_column, conditions):
     return dataframe.loc[np.logical_and.reduce(conditions), sum_column].sum()
 
 
-
-
 def time(hour, minute, second):
     """Returns the decimal number associated with the supplied time as a fraction of 1 day."""
     if hour > 23:
@@ -316,6 +258,11 @@ def today():
 def true():
     """Returns True."""
     return True
+
+
+def type_(value):
+    """Returns the type of the supplied value."""
+    return type(value)
 
 
 def vlookup(dataframe, return_column, search_column, search_value):
